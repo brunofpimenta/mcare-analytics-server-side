@@ -1,5 +1,6 @@
-package br.com.mobicare.ga;
+package br.com.mobicare.ga.request;
 
+import br.com.mobicare.ga.exception.HitException;
 import org.springframework.util.LinkedMultiValueMap;
 
 public class HitRequest extends LinkedMultiValueMap<String, String> {
@@ -131,6 +132,10 @@ public class HitRequest extends LinkedMultiValueMap<String, String> {
         this.add("dt", dt);
     }
 
+    public void setCd(String cd) {
+        this.add("cd", cd);
+    }
+
     //Acompanhamento de aplicativos
     public void setAn(String an) {
         this.add("an", an);
@@ -147,4 +152,30 @@ public class HitRequest extends LinkedMultiValueMap<String, String> {
     public void setAiid(String aiid) {
         this.add("aiid", aiid);
     }
+
+    public void validate() throws HitException {
+        StringBuilder exceptionMessage = new StringBuilder();
+
+        if (this.get("v") == null) {
+            exceptionMessage.append("O parâmetro [v] (Version) é obrigatório. ");
+        }
+
+        if (this.get("tid") == null) {
+            exceptionMessage.append("O parâmetro [t] (Tracking Id) é obrigatório. ");
+        }
+
+        if (this.get("cid") == null) {
+            exceptionMessage.append("O parâmetro [cid] (Client Id) é obrigatório. ");
+        }
+
+        if (this.get("t") == null) {
+            exceptionMessage.append("O parâmetro [t] (Type) é obrigatório. ");
+        }
+
+        if (exceptionMessage.length() > 0) {
+            throw new HitException(exceptionMessage.toString());
+        }
+
+    }
+
 }

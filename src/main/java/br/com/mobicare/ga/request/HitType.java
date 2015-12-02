@@ -1,4 +1,4 @@
-package br.com.mobicare.ga;
+package br.com.mobicare.ga.request;
 
 public enum HitType {
 

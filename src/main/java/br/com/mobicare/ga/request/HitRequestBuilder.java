@@ -1,7 +1,7 @@
-package br.com.mobicare.ga;
+package br.com.mobicare.ga.request;
 
 public class HitRequestBuilder {
-    private HitRequest hitRequest = new HitRequest();
+    HitRequest hitRequest = new HitRequest();
 
     /**
      * Reference: https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#v
@@ -20,7 +20,7 @@ public class HitRequestBuilder {
      * @param value valor da propriedade.
      * @return Builder
      */
-    public HitRequestBuilder withPropertyId(String value) {
+    public HitRequestBuilder withTrackingId(String value) {
         hitRequest.setTid(value);
         return this;
     }
@@ -330,6 +330,17 @@ public class HitRequestBuilder {
     }
 
     /**
+     * Reference: https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#cd
+     *
+     * @param value valor da propriedade.
+     * @return Builder
+     */
+    public HitRequestBuilder withContentDescription(String value) {
+        hitRequest.setCd(value);
+        return this;
+    }
+
+    /**
      * Reference: https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#an
      *
      * @param value valor da propriedade.
@@ -376,4 +387,5 @@ public class HitRequestBuilder {
     public HitRequest build() {
         return this.hitRequest;
     }
+
 }
