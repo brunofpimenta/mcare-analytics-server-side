@@ -165,7 +165,7 @@ public class HitRequest extends LinkedMultiValueMap<String, String> {
         }
 
         if (this.get("tid") == null) {
-            exceptionMessage.append("O parâmetro [t] (Tracking Id) é obrigatório. ");
+            exceptionMessage.append("O parâmetro [tid] (Tracking Id) é obrigatório. ");
         }
 
         if (this.get("cid") == null) {
