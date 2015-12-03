@@ -153,6 +153,10 @@ public class HitRequest extends LinkedMultiValueMap<String, String> {
         this.add("aiid", aiid);
     }
 
+    /**
+     * Valida os parametros obrigatorios segundo https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
+     * @throws HitException excecao lancada quando algum parametro obrigatorio nao for recebido.
+     */
     public void validate() throws HitException {
         StringBuilder exceptionMessage = new StringBuilder();
 
