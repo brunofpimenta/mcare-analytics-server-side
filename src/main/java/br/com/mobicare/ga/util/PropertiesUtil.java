@@ -1,34 +1,26 @@
 package br.com.mobicare.ga.util;
 
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
 
 @Component
 public class PropertiesUtil extends PropertyPlaceholderConfigurer {
-    private static Map propertiesMap;
 
-    @Override
-    protected void processProperties(ConfigurableListableBeanFactory beanFactory,
-            Properties props) throws BeansException {
-        super.processProperties(beanFactory, props);
+    @Autowired
+    ApplicationContext applicationContext;
 
-        propertiesMap = new HashMap<>();
-        for (Object key : props.keySet()) {
-            String keyStr = key.toString();
-            propertiesMap.put(keyStr, parseStringValue(props.getProperty(keyStr),
-                    props, new HashSet()));
-        }
+    public boolean containsProperty(String propertyName) {
+        return applicationContext.getEnvironment().containsProperty(propertyName);
     }
 
-    public String getProperty(String name) {
-        return (String) propertiesMap.get(name);
+    public String getProperty(String propertyName) {
+        if (!containsProperty(propertyName)) {
+            return null;
+        }
+
+        return applicationContext.getEnvironment().getProperty(propertyName);
     }
 
 }

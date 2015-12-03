@@ -23,17 +23,17 @@ public class GoogleAdapter {
     RestTemplate restTemplate;
 
     static final String DEFAULT_URL = "https://www.google-analytics.com/collect";
-    static final String DEFAULT_URL_DEBUG = "https://www.google-analytics.com/debug/collect";
+    static final String DEFAULT_DEBUG_URL = "https://www.google-analytics.com/debug/collect";
 
     String url;
-    String urlDebug;
+    String debugUrl;
 
     @PostConstruct
     public void init() {
         restTemplate = new RestTemplate();
 
-        String property = propertiesUtil.getProperty("ga.url");
-        System.out.println(property);
+        url = propertiesUtil.getProperty("analytics.url");
+        debugUrl = propertiesUtil.getProperty("analytics.debug.url");
 
         resolveUrl();
     }
@@ -45,11 +45,11 @@ public class GoogleAdapter {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(mediaTypes);
 
-        HttpEntity<HitRequest> httpEntity = new HttpEntity<>(hitRequest, httpHeaders);
+        HttpEntity<HitRequest> httpEntity = new HttpEntity<HitRequest>(hitRequest, httpHeaders);
 
         String requestUrl = url;
         if (debug) {
-            requestUrl = urlDebug;
+            requestUrl = debugUrl;
         }
 
         URI uri =
@@ -68,7 +68,7 @@ public class GoogleAdapter {
         }
 
         if (StringUtils.isEmpty(url)) {
-            urlDebug = DEFAULT_URL_DEBUG;
+            debugUrl = DEFAULT_DEBUG_URL;
         }
     }
 
