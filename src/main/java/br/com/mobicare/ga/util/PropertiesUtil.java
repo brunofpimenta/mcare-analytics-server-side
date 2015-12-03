@@ -1,12 +1,11 @@
 package br.com.mobicare.ga.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PropertiesUtil extends PropertyPlaceholderConfigurer {
+public class PropertiesUtil {
 
     @Autowired
     ApplicationContext applicationContext;

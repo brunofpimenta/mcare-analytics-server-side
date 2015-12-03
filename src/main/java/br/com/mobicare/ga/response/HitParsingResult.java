@@ -1,7 +1,5 @@
 package br.com.mobicare.ga.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 public class HitParsingResult {
@@ -9,8 +7,7 @@ public class HitParsingResult {
     private boolean valid;
     private String hit;
 
-    @JsonProperty("parserMessage")
-    private List<ParserMessage> parserMessages;
+    private List<ParserMessage> parserMessage;
 
     public boolean isValid() {
         return valid;
@@ -28,11 +25,11 @@ public class HitParsingResult {
         this.hit = hit;
     }
 
-    public List<ParserMessage> getParserMessages() {
-        return parserMessages;
+    public List<ParserMessage> getParserMessage() {
+        return parserMessage;
     }
 
-    public void setParserMessages(List<ParserMessage> parserMessages) {
-        this.parserMessages = parserMessages;
+    public void setParserMessage(List<ParserMessage> parserMessage) {
+        this.parserMessage = parserMessage;
     }
 }

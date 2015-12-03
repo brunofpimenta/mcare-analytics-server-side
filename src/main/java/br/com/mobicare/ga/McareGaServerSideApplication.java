@@ -3,7 +3,6 @@ package br.com.mobicare.ga;
 import br.com.mobicare.ga.request.HitRequest;
 import br.com.mobicare.ga.request.HitRequestBuilder;
 import br.com.mobicare.ga.request.HitType;
-import br.com.mobicare.ga.response.GoogleResponseMessage;
 import br.com.mobicare.ga.service.GAService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,9 +27,11 @@ public class McareGaServerSideApplication implements CommandLineRunner {
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
                 .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
 
-        GoogleResponseMessage googleResponseMessage = gaService.hit(hitRequest, false);
+//        String hitDebug = gaService.hitDebug(hitRequest);
 
-        System.out.println(googleResponseMessage);
+        gaService.hit(hitRequest);
+
+//        System.out.println(hitDebug);
     }
 }
 

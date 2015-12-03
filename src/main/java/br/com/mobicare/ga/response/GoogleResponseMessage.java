@@ -1,22 +1,28 @@
 package br.com.mobicare.ga.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 public class GoogleResponseMessage {
 
-    @JsonProperty("hitParsingResult")
-    private List<HitParsingResult> hitParsingResults;
+    private List<HitParsingResult> hitParsingResult;
 
-    public List<HitParsingResult> getHitParsingResults() {
-        return hitParsingResults;
+    private List<ParserMessage> parserMessage;
+
+    public List<HitParsingResult> getHitParsingResult() {
+        return hitParsingResult;
     }
 
-    public void setHitParsingResults(List<HitParsingResult> hitParsingResults) {
-        this.hitParsingResults = hitParsingResults;
+    public void setHitParsingResult(List<HitParsingResult> hitParsingResult) {
+        this.hitParsingResult = hitParsingResult;
     }
 
+    public List<ParserMessage> getParserMessage() {
+        return parserMessage;
+    }
+
+    public void setParserMessage(List<ParserMessage> parserMessage) {
+        this.parserMessage = parserMessage;
+    }
 }
 
 
