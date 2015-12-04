@@ -5,7 +5,7 @@ import br.com.mobicare.ga.exception.HitException;
 import br.com.mobicare.ga.request.HitRequest;
 import br.com.mobicare.ga.request.HitRequestBuilder;
 import br.com.mobicare.ga.request.HitType;
-import br.com.mobicare.ga.service.GAService;
+import br.com.mobicare.ga.service.AnalyticsService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,10 +21,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = McareGaServerSideApplication.class)
 @WebAppConfiguration
-public class GAServiceTests {
+public class AnalyticsServiceTests {
 
     @InjectMocks
-    GAService gaService;
+    AnalyticsService analyticsService;
 
     @Mock
     GoogleAdapter googleAdapter;
@@ -45,7 +45,7 @@ public class GAServiceTests {
 
         Mockito.when(googleAdapter.hit(hitRequest, false)).thenReturn("OK");
         try {
-            gaService.hit(hitRequest);
+            analyticsService.hit(hitRequest);
         } catch (HitException e) {
             Assert.fail("Not expected error.");
         }
@@ -60,7 +60,7 @@ public class GAServiceTests {
                 .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
 
         try {
-            gaService.hit(hitRequest);
+            analyticsService.hit(hitRequest);
             Assert.fail("Expected error.");
         } catch (HitException e) {
             Assert.assertTrue(e.getMessage().contains("[v]"));
@@ -73,7 +73,7 @@ public class GAServiceTests {
                 .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
 
         try {
-            gaService.hit(hitRequest);
+            analyticsService.hit(hitRequest);
             Assert.fail("Expected error.");
         } catch (HitException e) {
             Assert.assertTrue(e.getMessage().contains("[tid]"));
@@ -86,7 +86,7 @@ public class GAServiceTests {
                 .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
 
         try {
-            gaService.hit(hitRequest);
+            analyticsService.hit(hitRequest);
             Assert.fail("Expected error.");
         } catch (HitException e) {
             Assert.assertTrue(e.getMessage().contains("[cid]"));
@@ -99,7 +99,7 @@ public class GAServiceTests {
                 .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
 
         try {
-            gaService.hit(hitRequest);
+            analyticsService.hit(hitRequest);
             Assert.fail("Expected error.");
         } catch (HitException e) {
             Assert.assertTrue(e.getMessage().contains("[t]"));

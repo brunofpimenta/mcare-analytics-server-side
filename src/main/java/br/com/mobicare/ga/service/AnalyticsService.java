@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GAService {
+public class AnalyticsService {
 
     @Autowired
     private GoogleAdapter googleAdapter;
 
     /**
      * Envia o hit para o GA.
+     *
      * @param hitRequest request com as opcoes do hit.
      * @throws HitException excecao lancada quando algum parametro obrigatorio nao e informado.
      */
@@ -27,6 +28,7 @@ public class GAService {
 
     /**
      * Envia o hit para um endpoint de validacao. (ver: https://developers.google.com/analytics/devguides/collection/protocol/v1/validating-hits)
+     *
      * @param hitRequest request com as opcoes do hit.
      * @throws HitException excecao lancada quando algum parametro obrigatorio nao e informado.
      */
