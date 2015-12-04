@@ -10,28 +10,54 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.client.MockRestServiceServer;
+
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = McareAnalyticsServerSideApplication.class)
 @WebAppConfiguration
 public class AnalyticsServiceTests {
 
-    @InjectMocks
+    @Autowired
+    GoogleAdapter googleAdapter;
+
+    @Autowired
     AnalyticsService analyticsService;
 
-    @Mock
-    GoogleAdapter googleAdapter;
+    MockRestServiceServer mockServer;
 
     @Before
     public void initMocks() {
-        MockitoAnnotations.initMocks(this);
+        mockServer = MockRestServiceServer.createServer(googleAdapter.getRestTemplate());
+    }
+
+    @Test
+    public void sendSuccessHit() {
+
+        HitRequest hitRequest = new HitRequestBuilder().withVersion("1").withTrackingId("UA-70823467-1")
+                .withClientId("123456").withHitType(HitType.SCREENVIEW)
+                .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
+                .withAppInstallerId("com.android.vending").withContentDescription("Home1")
+                .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
+
+        mockServer.expect(requestTo("https://www.google-analytics.com/collect")).andExpect(method(HttpMethod.POST))
+                .andRespond(withSuccess());
+
+        try {
+            analyticsService.hit(hitRequest);
+        } catch (HitException e) {
+            Assert.fail("Not expected error.");
+        }
+
+        mockServer.verify();
     }
 
     @Test
@@ -43,16 +69,20 @@ public class AnalyticsServiceTests {
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
                 .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
 
-        Mockito.when(googleAdapter.hit(hitRequest, false)).thenReturn("OK");
+        mockServer.expect(requestTo("https://www.google-analytics.com/debug/collect")).andExpect(method(HttpMethod.POST))
+                .andRespond(withSuccess());
+
         try {
-            analyticsService.hit(hitRequest);
+            analyticsService.hitDebug(hitRequest);
         } catch (HitException e) {
             Assert.fail("Not expected error.");
         }
+
+        mockServer.verify();
     }
 
     @Test
-    public void notNullParamValidationSuccess() {
+    public void hitNotNullParamValidationSuccess() {
         HitRequest hitRequest = new HitRequestBuilder().withTrackingId("UA-70823467-1")
                 .withClientId("123456").withHitType(HitType.SCREENVIEW)
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
@@ -100,6 +130,62 @@ public class AnalyticsServiceTests {
 
         try {
             analyticsService.hit(hitRequest);
+            Assert.fail("Expected error.");
+        } catch (HitException e) {
+            Assert.assertTrue(e.getMessage().contains("[t]"));
+        }
+
+    }
+
+    @Test
+    public void hitDebugNotNullParamValidationSuccess() {
+        HitRequest hitRequest = new HitRequestBuilder().withTrackingId("UA-70823467-1")
+                .withClientId("123456").withHitType(HitType.SCREENVIEW)
+                .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
+                .withAppInstallerId("com.android.vending").withContentDescription("Home1")
+                .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
+
+        try {
+            analyticsService.hitDebug(hitRequest);
+            Assert.fail("Expected error.");
+        } catch (HitException e) {
+            Assert.assertTrue(e.getMessage().contains("[v]"));
+        }
+
+        hitRequest = new HitRequestBuilder().withVersion("1")
+                .withClientId("123456").withHitType(HitType.SCREENVIEW)
+                .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
+                .withAppInstallerId("com.android.vending").withContentDescription("Home1")
+                .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
+
+        try {
+            analyticsService.hitDebug(hitRequest);
+            Assert.fail("Expected error.");
+        } catch (HitException e) {
+            Assert.assertTrue(e.getMessage().contains("[tid]"));
+        }
+
+        hitRequest = new HitRequestBuilder().withVersion("1").withTrackingId("UA-70823467-1")
+                .withHitType(HitType.SCREENVIEW)
+                .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
+                .withAppInstallerId("com.android.vending").withContentDescription("Home1")
+                .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
+
+        try {
+            analyticsService.hitDebug(hitRequest);
+            Assert.fail("Expected error.");
+        } catch (HitException e) {
+            Assert.assertTrue(e.getMessage().contains("[cid]"));
+        }
+
+        hitRequest = new HitRequestBuilder().withVersion("1").withTrackingId("UA-70823467-1")
+                .withClientId("123456")
+                .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
+                .withAppInstallerId("com.android.vending").withContentDescription("Home1")
+                .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
+
+        try {
+            analyticsService.hitDebug(hitRequest);
             Assert.fail("Expected error.");
         } catch (HitException e) {
             Assert.assertTrue(e.getMessage().contains("[t]"));

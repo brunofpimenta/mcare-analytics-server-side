@@ -24,17 +24,16 @@ public class GoogleAdapter {
     @Autowired
     PropertiesUtil propertiesUtil;
 
-    RestTemplate restTemplate;
-
     static final String DEFAULT_URL = "https://www.google-analytics.com/collect";
     static final String DEFAULT_DEBUG_URL = "https://www.google-analytics.com/debug/collect";
+
+    RestTemplate restTemplate;
 
     String url;
     String debugUrl;
 
     @PostConstruct
     public void init() {
-        restTemplate = new RestTemplate();
 
         url = propertiesUtil.getProperty("analytics.url");
         debugUrl = propertiesUtil.getProperty("analytics.debug.url");
@@ -67,10 +66,16 @@ public class GoogleAdapter {
         URI uri =
                 UriComponentsBuilder.fromHttpUrl(requestUrl)
                         .buildAndExpand().encode().toUri();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, String.class);
+        ResponseEntity<String> responseEntity = getRestTemplate().exchange(uri, HttpMethod.POST, httpEntity, String.class);
 
         return responseEntity.getBody();
 
     }
 
+    public RestTemplate getRestTemplate() {
+        if (restTemplate == null) {
+            restTemplate = new RestTemplate();
+        }
+        return restTemplate;
+    }
 }
