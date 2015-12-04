@@ -39,16 +39,20 @@ public class GoogleAdapter {
         url = propertiesUtil.getProperty("analytics.url");
         debugUrl = propertiesUtil.getProperty("analytics.debug.url");
 
-        resolveUrl();
+        if (StringUtils.isEmpty(url)) {
+            url = DEFAULT_URL;
+        }
+
+        if (StringUtils.isEmpty(debugUrl)) {
+            debugUrl = DEFAULT_DEBUG_URL;
+        }
     }
 
     /**
-     *
      * @param hitRequest request com informacoes do GA.
-     * @param debug se true, o request vai ser enviado para um endpoint diferente que e responsavel somente por validar o request
-     *              (ver: https://developers.google.com/analytics/devguides/collection/protocol/v1/validating-hits); se true, as informacoes
-     *              de fato serao enviadas para o GA.
-     *
+     * @param debug      se true, o request vai ser enviado para um endpoint diferente que e responsavel somente por validar o request
+     *                   (ver: https://developers.google.com/analytics/devguides/collection/protocol/v1/validating-hits); se true, as informacoes
+     *                   de fato serao enviadas para o GA.
      * @return se [debug] for true, retorna uma string que representa a classe br.com.mobicare.ga.response.GoogleResponseMessage;
      * se [debug] for false, nada e retornado.
      */
@@ -63,21 +67,10 @@ public class GoogleAdapter {
         URI uri =
                 UriComponentsBuilder.fromHttpUrl(requestUrl)
                         .buildAndExpand().encode().toUri();
-
         ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, String.class);
 
         return responseEntity.getBody();
 
-    }
-
-    private void resolveUrl() {
-        if (StringUtils.isEmpty(url)) {
-            url = DEFAULT_URL;
-        }
-
-        if (StringUtils.isEmpty(debugUrl)) {
-            debugUrl = DEFAULT_DEBUG_URL;
-        }
     }
 
 }
