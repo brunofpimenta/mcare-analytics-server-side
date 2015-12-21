@@ -1,7 +1,17 @@
 package br.com.mobicare.ga.request;
 
 public class HitRequestBuilder {
+    private final String url;
+
     HitRequest hitRequest = new HitRequest();
+
+    public HitRequestBuilder(String url) {
+        this.url = url;
+    }
+
+    public HitRequestBuilder() {
+        this.url = null;
+    }
 
     /**
      * Reference: https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#v
@@ -385,6 +395,7 @@ public class HitRequestBuilder {
     }
 
     public HitRequest build() {
+        this.hitRequest.setUrl(url);
         return this.hitRequest;
     }
 

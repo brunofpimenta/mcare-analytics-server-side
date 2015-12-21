@@ -58,10 +58,7 @@ public class GoogleAdapter {
     public String hit(HitRequest hitRequest, boolean debug) {
         HttpEntity<HitRequest> httpEntity = new HttpEntity<HitRequest>(hitRequest);
 
-        String requestUrl = url;
-        if (debug) {
-            requestUrl = debugUrl;
-        }
+        String requestUrl = getRequestUrl(hitRequest.getUrl(), debug);
 
         URI uri =
                 UriComponentsBuilder.fromHttpUrl(requestUrl)
@@ -70,6 +67,19 @@ public class GoogleAdapter {
 
         return responseEntity.getBody();
 
+    }
+
+    private String getRequestUrl(String parametrizedUrl, boolean debug) {
+        if (!StringUtils.isEmpty(parametrizedUrl)) {
+            return parametrizedUrl;
+        }
+
+        String requestUrl = this.url;
+        if (debug) {
+            requestUrl = debugUrl;
+        }
+
+        return requestUrl;
     }
 
     public RestTemplate getRestTemplate() {

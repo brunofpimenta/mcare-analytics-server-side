@@ -193,4 +193,44 @@ public class AnalyticsServiceTests {
 
     }
 
+    @Test
+    public void testSuccessHitWithParametrizedUrl() {
+        HitRequest hitRequest = new HitRequestBuilder("http://www.google.com").withTrackingId("UA-70823467-1").withVersion("1")
+                .withClientId("123456").withHitType(HitType.SCREENVIEW)
+                .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
+                .withAppInstallerId("com.android.vending").withContentDescription("Home1")
+                .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
+
+        mockServer.expect(requestTo("http://www.google.com")).andExpect(method(HttpMethod.POST))
+                .andRespond(withSuccess());
+
+        try {
+            analyticsService.hit(hitRequest);
+        } catch (HitException e) {
+            Assert.fail("Not expected error.");
+        }
+
+        mockServer.verify();
+    }
+
+    @Test
+    public void testSuccessHitDebugWithParametrizedUrl() {
+        HitRequest hitRequest = new HitRequestBuilder("http://www.google.com").withTrackingId("UA-70823467-1").withVersion("1")
+                .withClientId("123456").withHitType(HitType.SCREENVIEW)
+                .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
+                .withAppInstallerId("com.android.vending").withContentDescription("Home1")
+                .withUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452").build();
+
+        mockServer.expect(requestTo("http://www.google.com")).andExpect(method(HttpMethod.POST))
+                .andRespond(withSuccess());
+
+        try {
+            analyticsService.hitDebug(hitRequest);
+        } catch (HitException e) {
+            Assert.fail("Not expected error.");
+        }
+
+        mockServer.verify();
+    }
+
 }

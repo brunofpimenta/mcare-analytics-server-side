@@ -5,6 +5,8 @@ import org.springframework.util.LinkedMultiValueMap;
 
 public class HitRequest extends LinkedMultiValueMap<String, String> {
 
+    private String url;
+
     // Geral
     public void setV(String v) {
         this.add("v", v);
@@ -182,4 +184,11 @@ public class HitRequest extends LinkedMultiValueMap<String, String> {
 
     }
 
+    void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 }
