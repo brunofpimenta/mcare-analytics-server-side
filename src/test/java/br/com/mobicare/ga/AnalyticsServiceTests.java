@@ -42,7 +42,7 @@ public class AnalyticsServiceTests {
     @Test
     public void sendSuccessHit() {
 
-        HitRequest hitRequest = new HitRequestBuilder().withVersion("1").withTrackingId("UA-70823467-1")
+        HitRequest hitRequest = new HitRequestBuilder().withVersionOne().withTrackingId("UA-70823467-1")
                 .withClientId("123456").withHitType(HitType.SCREENVIEW)
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
@@ -63,7 +63,7 @@ public class AnalyticsServiceTests {
     @Test
     public void sendSuccessDebugHit() {
 
-        HitRequest hitRequest = new HitRequestBuilder().withVersion("1").withTrackingId("UA-70823467-1")
+        HitRequest hitRequest = new HitRequestBuilder().withVersionOne().withTrackingId("UA-70823467-1")
                 .withClientId("123456").withHitType(HitType.SCREENVIEW)
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
@@ -96,7 +96,7 @@ public class AnalyticsServiceTests {
             Assert.assertTrue(e.getMessage().contains("[v]"));
         }
 
-        hitRequest = new HitRequestBuilder().withVersion("1")
+        hitRequest = new HitRequestBuilder().withVersionOne()
                 .withClientId("123456").withHitType(HitType.SCREENVIEW)
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
@@ -109,7 +109,7 @@ public class AnalyticsServiceTests {
             Assert.assertTrue(e.getMessage().contains("[tid]"));
         }
 
-        hitRequest = new HitRequestBuilder().withVersion("1").withTrackingId("UA-70823467-1")
+        hitRequest = new HitRequestBuilder().withVersionOne().withTrackingId("UA-70823467-1")
                 .withHitType(HitType.SCREENVIEW)
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
@@ -122,7 +122,7 @@ public class AnalyticsServiceTests {
             Assert.assertTrue(e.getMessage().contains("[cid]"));
         }
 
-        hitRequest = new HitRequestBuilder().withVersion("1").withTrackingId("UA-70823467-1")
+        hitRequest = new HitRequestBuilder().withVersionOne().withTrackingId("UA-70823467-1")
                 .withClientId("123456")
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
@@ -152,7 +152,7 @@ public class AnalyticsServiceTests {
             Assert.assertTrue(e.getMessage().contains("[v]"));
         }
 
-        hitRequest = new HitRequestBuilder().withVersion("1")
+        hitRequest = new HitRequestBuilder().withVersionOne()
                 .withClientId("123456").withHitType(HitType.SCREENVIEW)
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
@@ -165,7 +165,7 @@ public class AnalyticsServiceTests {
             Assert.assertTrue(e.getMessage().contains("[tid]"));
         }
 
-        hitRequest = new HitRequestBuilder().withVersion("1").withTrackingId("UA-70823467-1")
+        hitRequest = new HitRequestBuilder().withVersionOne().withTrackingId("UA-70823467-1")
                 .withHitType(HitType.SCREENVIEW)
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
@@ -178,7 +178,7 @@ public class AnalyticsServiceTests {
             Assert.assertTrue(e.getMessage().contains("[cid]"));
         }
 
-        hitRequest = new HitRequestBuilder().withVersion("1").withTrackingId("UA-70823467-1")
+        hitRequest = new HitRequestBuilder().withVersionOne().withTrackingId("UA-70823467-1")
                 .withClientId("123456")
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
@@ -195,7 +195,7 @@ public class AnalyticsServiceTests {
 
     @Test
     public void testSuccessHitWithParametrizedUrl() {
-        HitRequest hitRequest = new HitRequestBuilder("http://www.google.com").withTrackingId("UA-70823467-1").withVersion("1")
+        HitRequest hitRequest = new HitRequestBuilder("http://www.google.com").withTrackingId("UA-70823467-1").withVersionOne()
                 .withClientId("123456").withHitType(HitType.SCREENVIEW)
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")
@@ -215,7 +215,7 @@ public class AnalyticsServiceTests {
 
     @Test
     public void testSuccessHitDebugWithParametrizedUrl() {
-        HitRequest hitRequest = new HitRequestBuilder("http://www.google.com").withTrackingId("UA-70823467-1").withVersion("1")
+        HitRequest hitRequest = new HitRequestBuilder("http://www.google.com").withTrackingId("UA-70823467-1").withVersionOne()
                 .withClientId("123456").withHitType(HitType.SCREENVIEW)
                 .withAppName("Oi Recarga").withAppVersion("2.1.0").withAppId("br.com.mobicare.oi.recarga")
                 .withAppInstallerId("com.android.vending").withContentDescription("Home1")

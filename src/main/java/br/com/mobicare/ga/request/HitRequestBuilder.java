@@ -25,6 +25,16 @@ public class HitRequestBuilder {
     }
 
     /**
+     * Reference: https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#v
+     *
+     * @return Builder
+     */
+    public HitRequestBuilder withVersionOne() {
+        hitRequest.setV("1");
+        return this;
+    }
+
+    /**
      * Reference: https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#tid
      *
      * @param value valor da propriedade.
