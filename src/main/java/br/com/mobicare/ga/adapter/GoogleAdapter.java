@@ -2,6 +2,8 @@ package br.com.mobicare.ga.adapter;
 
 import br.com.mobicare.ga.request.HitRequest;
 import br.com.mobicare.ga.util.PropertiesUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -20,6 +22,9 @@ import java.net.URI;
  */
 @Component
 public class GoogleAdapter {
+
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
 
     @Autowired
     PropertiesUtil propertiesUtil;
@@ -60,12 +65,17 @@ public class GoogleAdapter {
 
         String requestUrl = getRequestUrl(hitRequest.getUrl(), debug);
 
+        LOG.info("Sending hit request (debug? [{}]) to URL [{}]...", debug, requestUrl);
+
         URI uri =
                 UriComponentsBuilder.fromHttpUrl(requestUrl)
                         .buildAndExpand().encode().toUri();
         ResponseEntity<String> responseEntity = getRestTemplate().exchange(uri, HttpMethod.POST, httpEntity, String.class);
 
-        return responseEntity.getBody();
+        String returnBody = responseEntity.getBody();
+        LOG.info("Hit request sent and returned [{}]", returnBody);
+
+        return returnBody;
 
     }
 
