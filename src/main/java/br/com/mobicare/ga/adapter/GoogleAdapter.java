@@ -1,10 +1,10 @@
 package br.com.mobicare.ga.adapter;
 
 import br.com.mobicare.ga.request.HitRequest;
-import br.com.mobicare.ga.util.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class GoogleAdapter {
 
 
     @Autowired
-    PropertiesUtil propertiesUtil;
+    ApplicationContext applicationContext;
 
     static final String DEFAULT_URL = "https://www.google-analytics.com/collect";
     static final String DEFAULT_DEBUG_URL = "https://www.google-analytics.com/debug/collect";
@@ -40,8 +40,13 @@ public class GoogleAdapter {
     @PostConstruct
     public void init() {
 
-        url = propertiesUtil.getProperty("analytics.url");
-        debugUrl = propertiesUtil.getProperty("analytics.debug.url");
+        if(applicationContext.getEnvironment().containsProperty("analytics.url")) {
+            url = applicationContext.getEnvironment().getProperty("analytics.url");
+        }
+
+        if(applicationContext.getEnvironment().containsProperty("analytics.debug.url")) {
+            debugUrl = applicationContext.getEnvironment().getProperty("analytics.debug.url");
+        }
 
         if (StringUtils.isEmpty(url)) {
             url = DEFAULT_URL;
