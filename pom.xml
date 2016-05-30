@@ -4,7 +4,7 @@
 
 	<groupId>br.com.mobicare</groupId>
 	<artifactId>mcare-analytics-server-side</artifactId>
-	<version>1.0.1.1</version>
+	<version>1.0.1.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>mcare-analytics-server-side</name>
@@ -21,7 +21,7 @@
 		<connection>scm:git:git@github.com:mobilecare/mcare-analytics-server-side.git</connection>
 		<url>scm:git:git@github.com:mobilecare/mcare-analytics-server-side.git</url>
 		<developerConnection>scm:git:git@github.com:mobilecare/mcare-analytics-server-side.git</developerConnection>
-		<tag>mcare-analytics-server-side-1.0.1.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 
